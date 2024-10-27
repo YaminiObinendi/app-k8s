@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web01
+  labels:
+    app: web01
+spec:
+  selector:
+    matchLabels:
+      app: web01
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: web01
+    spec:
+      containers:
+      - name: web01
+        image: yaminiobinendi/vproweb
+        ports:
+        - name: web-port
+          containerPort: 80
+        volumeMounts:
+          - name: nginx-config
+            mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+      initcontainers:
+      - name: init-tomcat
+        image: busybox
+        command: ['sh','-c','until nslookup app01; do echo waiting for tomcat; sleep 2; done']

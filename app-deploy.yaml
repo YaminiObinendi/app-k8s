@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app01
+  labels:
+    app: app01
+spec:
+  selector:
+    matchLabels:
+      app: app01
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app01
+    spec:
+      containers:
+      - name: app01
+        image: yaminiobinendi/vproapp
+        ports:
+        - name: app-port
+          containerPort: 8080
+      initcontainers:
+      - name: init-mydb
+        image: busybox
+        command: ['sh','-c','until nslookup db01; do echo waiting for mydb; sleep 2; done']
+      - name: init-memcache
+        image: busybox
+        command: ['sh','-c','until nslookup mc01; do echo waiting for memcache; sleep 2; done'] 
+
