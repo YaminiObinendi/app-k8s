@@ -20,7 +20,7 @@ spec:
         ports:
         - name: app-port
           containerPort: 8080
-      initcontainers:
+      initContainers:
       - name: init-mydb
         image: busybox
         command: ['sh','-c','until nslookup db01; do echo waiting for mydb; sleep 2; done']
