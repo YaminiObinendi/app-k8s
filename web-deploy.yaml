@@ -27,7 +27,7 @@ spec:
         - name: nginx-config
           configMap:
             name: nginx-config
-      initcontainers:
+      initContainers:
       - name: init-tomcat
         image: busybox
         command: ['sh','-c','until nslookup app01; do echo waiting for tomcat; sleep 2; done']
